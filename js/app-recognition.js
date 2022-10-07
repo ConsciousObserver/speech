@@ -89,7 +89,7 @@
         var lastStartedAt = null;
         var restartCount = 0;
 
-        trackTooManyRestartsPerSecond();
+        const trackIntervalId = trackTooManyRestartsPerSecond();
 
         function startListening() {
             console.log('starting listening');
@@ -120,7 +120,7 @@
         function trackTooManyRestartsPerSecond() {
             var lastRestartCount = restartCount;
 
-            setInterval(() => {
+            return setInterval(() => {
                 const restartDiff = restartCount - lastRestartCount;
 
                 if (restartDiff > 10) {
@@ -149,6 +149,8 @@
 
         function stopListening() {
             recognition.stop();
+
+            clearInterval(trackIntervalId);
         }
 
         return { startListening, stopListening };
