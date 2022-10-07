@@ -91,30 +91,39 @@
 
         const trackIntervalId = trackTooManyRestartsPerSecond();
 
+        var autoRestartIntervalId = null;
+
         function startListening() {
-            console.log('starting listening');
+            restart();
 
-            if (!lastStartedAt) {
-                recognition.start();
+            autoRestartIntervalId = autoRestart();
 
-                console.log('started speech recognition');
+            console.log('started speech recognition');
+            lastStartedAt = new Date().getTime();
+            restartCount++;
+        }
 
-                lastStartedAt = new Date().getTime();
-                restartCount++;
-            } else {
-                // play nicely with the browser, and never restart annyang automatically more than once per second
-                restartCount++;
-                
-                const timeSinceLastStart = new Date().getTime() - lastStartedAt;
+        function stopListening() {
+            recognition.stop();
 
-                if (timeSinceLastStart < 1000) {
-                    setTimeout(function () {
-                        startListening();
-                    }, 1000 - timeSinceLastStart);
+            clearInterval(trackIntervalId);
+            clearInterval(autoRestartIntervalId);
+        }
+
+        function trackTooManyRestartsPerSecond() {
+            var lastRestartCount = restartCount;
+
+            return setInterval(() => {
+                const restartDiff = restartCount - lastRestartCount;
+
+                if (restartDiff > 10) {
+                    console.warn('Speech Recognition is repeatedly stopping and starting.maybe you have two windows with speech recognition open?');
+    
+                    alert('too many restarts, refresh browser');
                 } else {
-                    restart();
+                    lastRestartCount = restartCount;
                 }
-            }
+            }, 1000)
         }
 
         function trackTooManyRestartsPerSecond() {
@@ -147,10 +156,8 @@
             console.log('restarted')
         }
 
-        function stopListening() {
-            recognition.stop();
-
-            clearInterval(trackIntervalId);
+        function autoRestart() {
+            return setInterval(() => restart(), 1000);
         }
 
         return { startListening, stopListening };
