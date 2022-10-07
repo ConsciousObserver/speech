@@ -14,3 +14,13 @@
     padding-top: 2em;
     padding-bottom: 2em;
 }
+
+.recognition-out-unprocessed {
+    border: 0.02em solid gray;
+    height: 1.5em;
+    width: 70%;
+    margin-bottom: 0.5em;
+    font-family: "Utsaah", "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: xx-large;
+    color: darkgray;
+}
