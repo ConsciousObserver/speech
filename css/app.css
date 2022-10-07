@@ -1,0 +1,16 @@
+@font-face {
+    font-family: "Utsaah";
+    src: url('fonts/utsaah.ttf');
+}
+
+.recognition-out {
+    width: 70%;
+    height: 5em;
+    font-family: "Utsaah", "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: xx-large;
+}
+
+.recognition-button-container {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
