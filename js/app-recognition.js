@@ -109,7 +109,7 @@
 
                 if (timeSinceLastStart < 1000) {
                     setTimeout(function () {
-                        restart();
+                        startListening();
                     }, 1000 - timeSinceLastStart);
                 } else {
                     restart();
